@@ -1,8 +1,9 @@
-package com.ccs.desafiocaju.domain.components;
+package com.ccs.rabbitmqtests.domain.components;
 
-import com.ccs.desafiocaju.domain.infra.exceptions.CajuInsufficientBalanceException;
-import com.ccs.desafiocaju.domain.models.entities.Transaction;
-import com.ccs.desafiocaju.domain.models.enums.TransactionCodesEnum;
+
+import com.ccs.rabbitmqtests.domain.core.exceptions.AppInsufficientBalanceException;
+import com.ccs.rabbitmqtests.domain.models.entities.Transaction;
+import com.ccs.rabbitmqtests.domain.models.enums.TransactionCodesEnum;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public interface TransactionStrategy {
 
     default void validarSaldo(BigDecimal balance, BigDecimal amount) {
         if (balance.compareTo(amount) < 0)
-            throw new CajuInsufficientBalanceException(this.getClass().getSimpleName());
+            throw new AppInsufficientBalanceException(this.getClass().getSimpleName());
 
     }
 

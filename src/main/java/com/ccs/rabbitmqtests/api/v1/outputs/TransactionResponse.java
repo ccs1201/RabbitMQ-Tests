@@ -1,4 +1,4 @@
-package com.ccs.desafiocaju.api.v1.outputs;
+package com.ccs.rabbitmqtests.api.v1.outputs;
 
 public record TransactionResponse(String code) {
 }

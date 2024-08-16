@@ -8,8 +8,9 @@ import org.springframework.context.annotation.Import;
 @SpringBootTest
 class RabbitMqTestsApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+        // Test context loads
+    }
 
 }

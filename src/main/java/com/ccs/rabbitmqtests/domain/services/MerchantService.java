@@ -1,6 +1,7 @@
-package com.ccs.desafiocaju.domain.services;
+package com.ccs.rabbitmqtests.domain.services;
 
-import com.ccs.desafiocaju.domain.models.entities.Merchant;
+
+import com.ccs.rabbitmqtests.domain.models.entities.Merchant;
 
 import java.util.Optional;
 

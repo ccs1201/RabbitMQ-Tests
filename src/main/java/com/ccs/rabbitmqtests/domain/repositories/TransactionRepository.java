@@ -1,6 +1,7 @@
-package com.ccs.desafiocaju.domain.repositories;
+package com.ccs.rabbitmqtests.domain.repositories;
 
-import com.ccs.desafiocaju.domain.models.entities.Transaction;
+
+import com.ccs.rabbitmqtests.domain.models.entities.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

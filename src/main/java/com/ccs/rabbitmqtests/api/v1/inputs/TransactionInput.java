@@ -1,4 +1,4 @@
-package com.ccs.desafiocaju.api.v1.inputs;
+package com.ccs.rabbitmqtests.api.v1.inputs;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

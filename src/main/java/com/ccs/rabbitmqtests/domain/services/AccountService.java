@@ -1,6 +1,7 @@
-package com.ccs.desafiocaju.domain.services;
+package com.ccs.rabbitmqtests.domain.services;
 
-import com.ccs.desafiocaju.domain.models.entities.Account;
+
+import com.ccs.rabbitmqtests.domain.models.entities.Account;
 
 public interface AccountService {
     Account findByIdLocking(Long id);

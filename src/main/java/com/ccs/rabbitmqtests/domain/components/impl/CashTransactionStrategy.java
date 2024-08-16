@@ -1,10 +1,11 @@
-package com.ccs.desafiocaju.domain.components.impl;
+package com.ccs.rabbitmqtests.domain.components.impl;
 
-import com.ccs.desafiocaju.domain.components.TransactionStrategy;
-import com.ccs.desafiocaju.domain.infra.exceptions.CajuInsufficientBalanceException;
-import com.ccs.desafiocaju.domain.models.entities.Transaction;
-import com.ccs.desafiocaju.domain.models.enums.TransactionBalanceTypeEnum;
-import com.ccs.desafiocaju.domain.models.enums.TransactionCodesEnum;
+
+import com.ccs.rabbitmqtests.domain.components.TransactionStrategy;
+import com.ccs.rabbitmqtests.domain.core.exceptions.AppInsufficientBalanceException;
+import com.ccs.rabbitmqtests.domain.models.entities.Transaction;
+import com.ccs.rabbitmqtests.domain.models.enums.TransactionBalanceTypeEnum;
+import com.ccs.rabbitmqtests.domain.models.enums.TransactionCodesEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class CashTransactionStrategy implements TransactionStrategy {
     public TransactionCodesEnum processTransaction(Transaction transaction) {
         try {
             validarSaldo(transaction.getAccount().getBalanceCash(), transaction.getAmount());
-        } catch (CajuInsufficientBalanceException e){
+        } catch (AppInsufficientBalanceException e) {
             return e.getCode();
         }
 

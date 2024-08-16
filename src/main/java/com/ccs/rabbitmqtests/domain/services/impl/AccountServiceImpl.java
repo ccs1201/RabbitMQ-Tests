@@ -1,9 +1,10 @@
-package com.ccs.desafiocaju.domain.services.impl;
+package com.ccs.rabbitmqtests.domain.services.impl;
 
-import com.ccs.desafiocaju.domain.infra.exceptions.CajuException;
-import com.ccs.desafiocaju.domain.models.entities.Account;
-import com.ccs.desafiocaju.domain.repositories.AccountRepository;
-import com.ccs.desafiocaju.domain.services.AccountService;
+
+import com.ccs.rabbitmqtests.domain.core.exceptions.AppRuntimeException;
+import com.ccs.rabbitmqtests.domain.models.entities.Account;
+import com.ccs.rabbitmqtests.domain.repositories.AccountRepository;
+import com.ccs.rabbitmqtests.domain.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account findByIdLocking(Long id) {
         return accountRepository.findByIdLocking(id).orElseThrow(() ->
-                new CajuException("Account not found"));
+                new AppRuntimeException("Account not found"));
     }
 
     @Override
     public Account findById(Long id) {
         return accountRepository.findById(id).orElseThrow(() ->
-                new CajuException("Account not found"));
+                new AppRuntimeException("Account not found"));
     }
 
     @Override

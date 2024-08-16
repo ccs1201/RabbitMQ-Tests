@@ -1,8 +1,8 @@
-package com.ccs.desafiocaju.domain.services.impl;
+package com.ccs.rabbitmqtests.domain.services.impl;
 
-import com.ccs.desafiocaju.domain.models.entities.Merchant;
-import com.ccs.desafiocaju.domain.repositories.MerchantRepository;
-import com.ccs.desafiocaju.domain.services.MerchantService;
+import com.ccs.rabbitmqtests.domain.models.entities.Merchant;
+import com.ccs.rabbitmqtests.domain.repositories.MerchantRepository;
+import com.ccs.rabbitmqtests.domain.services.MerchantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

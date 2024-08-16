@@ -1,7 +1,7 @@
-package com.ccs.desafiocaju.domain.infra.exceptions;
+package com.ccs.rabbitmqtests.domain.core.exceptions;
 
-public class CajuException extends RuntimeException {
-    public CajuException(String msg) {
+public class AppRuntimeException extends RuntimeException {
+    public AppRuntimeException(String msg) {
         super(msg);
     }
 }

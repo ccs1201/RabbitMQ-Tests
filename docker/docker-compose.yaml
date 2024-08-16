@@ -1,0 +1,37 @@
+services:
+    #Data Base
+  postgres:
+      image: postgres:16-alpine3.20
+      restart: no
+      container_name: postgres
+      environment:
+        - POSTGRES_DB=testes
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+      network_mode: bridge
+      ports:
+        - "5432:5432"
+      volumes:
+        - ./postgresql.conf:/docker-entrypoint-initdb.d/postgresql.conf
+      command: 'postgres -c config_file=/docker-entrypoint-initdb.d/postgresql.conf'
+      deploy:
+        resources:
+          limits:
+            cpus: '1'
+            memory: '512MB'
+
+  rabbitMQ:
+    image: rabbitmq:3.13.6-management-alpine
+    restart: no
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '512MB'

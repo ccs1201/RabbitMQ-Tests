@@ -1,6 +1,7 @@
-package com.ccs.desafiocaju.domain.repositories;
+package com.ccs.rabbitmqtests.domain.repositories;
 
-import com.ccs.desafiocaju.domain.models.entities.Merchant;
+
+import com.ccs.rabbitmqtests.domain.models.entities.Merchant;
 import jakarta.persistence.QueryHint;
 import org.hibernate.jpa.HibernateHints;
 import org.springframework.data.jpa.repository.JpaRepository;

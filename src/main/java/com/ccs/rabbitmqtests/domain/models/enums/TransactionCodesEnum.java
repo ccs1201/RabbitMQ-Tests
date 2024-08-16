@@ -1,4 +1,4 @@
-package com.ccs.desafiocaju.domain.models.enums;
+package com.ccs.rabbitmqtests.domain.models.enums;
 
 import lombok.Getter;
 

@@ -1,8 +1,9 @@
-package com.ccs.desafiocaju.api.v1.controllers;
+package com.ccs.rabbitmqtests.api.v1.controllers;
 
-import com.ccs.desafiocaju.api.v1.inputs.TransactionInput;
-import com.ccs.desafiocaju.api.v1.outputs.TransactionResponse;
-import com.ccs.desafiocaju.domain.services.TransactionService;
+
+import com.ccs.rabbitmqtests.api.v1.inputs.TransactionInput;
+import com.ccs.rabbitmqtests.api.v1.outputs.TransactionResponse;
+import com.ccs.rabbitmqtests.domain.services.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

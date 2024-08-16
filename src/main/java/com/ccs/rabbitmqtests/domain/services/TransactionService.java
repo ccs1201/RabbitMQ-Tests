@@ -1,6 +1,6 @@
-package com.ccs.desafiocaju.domain.services;
+package com.ccs.rabbitmqtests.domain.services;
 
-import com.ccs.desafiocaju.api.v1.inputs.TransactionInput;
+import com.ccs.rabbitmqtests.api.v1.inputs.TransactionInput;
 import jakarta.transaction.Transactional;
 
 public interface TransactionService {

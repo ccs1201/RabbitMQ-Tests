@@ -1,4 +1,4 @@
-package com.ccs.desafiocaju.domain.models.entities;
+package com.ccs.rabbitmqtests.domain.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

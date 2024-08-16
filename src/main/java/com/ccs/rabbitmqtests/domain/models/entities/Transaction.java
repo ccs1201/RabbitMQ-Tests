@@ -1,6 +1,6 @@
-package com.ccs.desafiocaju.domain.models.entities;
+package com.ccs.rabbitmqtests.domain.models.entities;
 
-import com.ccs.desafiocaju.domain.models.enums.TransactionBalanceTypeEnum;
+import com.ccs.rabbitmqtests.domain.models.enums.TransactionBalanceTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 

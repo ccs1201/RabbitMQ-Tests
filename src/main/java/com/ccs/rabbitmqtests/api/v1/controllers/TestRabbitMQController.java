@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/test")
 @RequiredArgsConstructor
-public class TestRabbitMQ {
+public class TestRabbitMQController {
 
     private final RabbitMQPublisher rabbitMQPublisher;
 

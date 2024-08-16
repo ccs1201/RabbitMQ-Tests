@@ -1,4 +1,4 @@
-package com.ccs.desafiocaju.domain.components;
+package com.ccs.rabbitmqtests.domain.components;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

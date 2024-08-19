@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
 
-public interface TransactionStrategy {
+public interface TransactionExecutor {
 
     default void validarSaldo(BigDecimal balance, BigDecimal amount) {
         if (balance.compareTo(amount) < 0)
@@ -21,5 +21,5 @@ public interface TransactionStrategy {
 
     Set<String> getMccs();
 
-    Optional<TransactionStrategy> getFallback();
+    Optional<TransactionExecutor> getFallback();
 }

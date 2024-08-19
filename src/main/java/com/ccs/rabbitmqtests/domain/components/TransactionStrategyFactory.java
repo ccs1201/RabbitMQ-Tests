@@ -10,17 +10,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class TransactionStrategyFactory {
 
-    private static final Map<String, TransactionStrategy> strategies = new ConcurrentHashMap<>();
+    private static final Map<String, TransactionExecutor> strategies = new ConcurrentHashMap<>();
 
     @Autowired
-    public TransactionStrategyFactory(List<TransactionStrategy> strategies) {
+    public TransactionStrategyFactory(List<TransactionExecutor> strategies) {
         strategies.forEach(strategy ->
                 strategy.getMccs().forEach(mcc ->
                         TransactionStrategyFactory
                                 .strategies.put(mcc, strategy)));
     }
 
-    public TransactionStrategy getStrategy(String mcc) {
+    public TransactionExecutor getStrategy(String mcc) {
         return strategies.getOrDefault(mcc, strategies.get("cash"));
     }
 }

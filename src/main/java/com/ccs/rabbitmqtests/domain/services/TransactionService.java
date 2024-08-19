@@ -5,5 +5,5 @@ import jakarta.transaction.Transactional;
 
 public interface TransactionService {
     @Transactional
-    String executeTransaction(TransactionInput input);
+    String processarTransacao(TransactionInput input);
 }

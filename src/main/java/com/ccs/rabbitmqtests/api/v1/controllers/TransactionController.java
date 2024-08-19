@@ -22,7 +22,7 @@ public class TransactionController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public TransactionResponse process(@Valid @RequestBody TransactionInput input) {
-        return new TransactionResponse(transactionService.executeTransaction(input));
+        return new TransactionResponse(transactionService.processarTransacao(input));
 
     }
 
@@ -30,7 +30,7 @@ public class TransactionController {
     @ResponseStatus(HttpStatus.OK)
     public CompletableFuture<TransactionResponse> processAsync(@Valid @RequestBody TransactionInput input) {
         return CompletableFuture.supplyAsync(() ->
-                transactionService.executeTransaction(input), Executors.newVirtualThreadPerTaskExecutor()
+                transactionService.processarTransacao(input), Executors.newVirtualThreadPerTaskExecutor()
         ).thenApply(TransactionResponse::new);
 
     }

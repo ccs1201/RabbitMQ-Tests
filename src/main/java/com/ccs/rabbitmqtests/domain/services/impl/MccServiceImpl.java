@@ -18,11 +18,4 @@ public class MccServiceImpl implements MccService {
                 .orElseThrow(() -> new AppRuntimeException("MCC not found"));
     }
 
-    @Override
-    public Mcc findById(Long id) {
-        return mccRepository.findById(id)
-                .orElseThrow(() -> new AppRuntimeException("MCC not found"));
-    }
-
-
 }

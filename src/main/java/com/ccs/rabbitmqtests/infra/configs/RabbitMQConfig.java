@@ -1,14 +1,13 @@
 package com.ccs.rabbitmqtests.infra.configs;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class RabbitMQConfig {
 
     @Bean
@@ -28,6 +27,13 @@ public class RabbitMQConfig {
                 .bind(queue)
                 .to(exchange)
                 .with(routingKey);
+    }
+
+    @Bean
+    public MessageProperties messageProperties() {
+        var messageProperties = new MessageProperties();
+        messageProperties.setContentType(MessageProperties.CONTENT_TYPE_JSON);
+        return messageProperties;
     }
 }
 

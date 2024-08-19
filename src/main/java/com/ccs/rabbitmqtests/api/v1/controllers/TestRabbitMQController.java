@@ -1,7 +1,7 @@
 package com.ccs.rabbitmqtests.api.v1.controllers;
 
 import com.ccs.rabbitmqtests.api.v1.inputs.TransactionInput;
-import com.ccs.rabbitmqtests.infra.rabbitmq.publishers.RabbitMQPublisher;
+import com.ccs.rabbitmqtests.infra.rabbitmq.publishers.impl.RabbitMQPublisherImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TestRabbitMQController {
 
-    private final RabbitMQPublisher rabbitMQPublisher;
+    private final RabbitMQPublisherImpl rabbitMQPublisherImpl;
 
     @PostMapping
     public void test(@RequestBody TransactionInput transactionInput) {
-        rabbitMQPublisher.sendMessage(transactionInput);
+        rabbitMQPublisherImpl.sendMessage(transactionInput);
     }
 }

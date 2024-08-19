@@ -1,1 +1,1 @@
-create schema if not exists rabbitmq;
+create schema if not exists payment_service;

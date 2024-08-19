@@ -2,7 +2,6 @@ package com.ccs.rabbitmqtests.infra.configs;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,21 +13,30 @@ public class RabbitMQConfig {
 
     @Bean
     public TopicExchange topicExchange() {
-        return new TopicExchange(RabbitMQConstants.EXCHANGE_NAME);
+        return ExchangeBuilder
+                .topicExchange(RabbitMQConstants.EXCHANGE_NAME)
+                .durable(true)
+                .build();
     }
 
     @Bean
-    public Queue queue(@Value("${app.rabbitmq.queue.test}") String queueName) {
-        return new Queue(queueName, true);
+    public MessageProperties messageProperties() {
+        var messageProperties = new MessageProperties();
+        messageProperties.setContentType(MessageProperties.CONTENT_TYPE_JSON);
+        return messageProperties;
     }
 
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange,
-                           @Value("${app.rabbitmq.routing.key.test}") String routingKey) {
+    public Queue queue() {
+        return new Queue(RabbitMQConstants.QUEUE_TEST, true);
+    }
+
+    @Bean
+    public Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder
                 .bind(queue)
                 .to(exchange)
-                .with(routingKey);
+                .with(RabbitMQConstants.ROUTING_KEY_TEST);
     }
 
     @Bean
@@ -68,13 +76,6 @@ public class RabbitMQConfig {
                 .bind(cashQueue)
                 .to(exchange)
                 .with(RabbitMQConstants.ROUTING_KEY_CASH);
-    }
-
-    @Bean
-    public MessageProperties messageProperties() {
-        var messageProperties = new MessageProperties();
-        messageProperties.setContentType(MessageProperties.CONTENT_TYPE_JSON);
-        return messageProperties;
     }
 }
 

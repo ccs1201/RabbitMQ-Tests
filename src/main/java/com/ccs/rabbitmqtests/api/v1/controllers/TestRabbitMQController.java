@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.ccs.rabbitmqtests.domain.core.constants.AppConstants.RabbitMQConstants;
+
 @RestController
 @RequestMapping("/test")
 @RequiredArgsConstructor
@@ -17,6 +19,6 @@ public class TestRabbitMQController {
 
     @PostMapping
     public void test(@RequestBody TransactionInput transactionInput) {
-        rabbitMQPublisherImpl.sendMessage(transactionInput);
+        rabbitMQPublisherImpl.sendMessage(RabbitMQConstants.ROUTING_KEY_TEST, transactionInput);
     }
 }

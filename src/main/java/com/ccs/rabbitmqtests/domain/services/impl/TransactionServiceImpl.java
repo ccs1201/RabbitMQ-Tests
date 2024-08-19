@@ -33,18 +33,18 @@ public class TransactionServiceImpl implements TransactionService {
 
         if (TransactionBalanceTypeEnum.FOOD.equals(merchant.getMcc().getBalanceType())) {
             //publicar payload na fila food
-            rabbitMQPublisher.sendMessage(RabbitMQConstants.EXCHANGE_NAME, RabbitMQConstants.ROUTING_KEY_FOOD, payload);
+            rabbitMQPublisher.sendMessage(RabbitMQConstants.ROUTING_KEY_FOOD, payload);
             return null;
         }
 
         if (TransactionBalanceTypeEnum.MEAL.equals(merchant.getMcc().getBalanceType())) {
             //publicar payload na fila meal
-            rabbitMQPublisher.sendMessage(RabbitMQConstants.EXCHANGE_NAME, RabbitMQConstants.ROUTING_KEY_MEAL, payload);
+            rabbitMQPublisher.sendMessage(RabbitMQConstants.ROUTING_KEY_MEAL, payload);
             return null;
         }
 
         //se não publica payload na fila cash
-        rabbitMQPublisher.sendMessage(RabbitMQConstants.EXCHANGE_NAME, RabbitMQConstants.ROUTING_KEY_CASH, payload);
+        rabbitMQPublisher.sendMessage(RabbitMQConstants.ROUTING_KEY_CASH, payload);
         return null;
     }
 

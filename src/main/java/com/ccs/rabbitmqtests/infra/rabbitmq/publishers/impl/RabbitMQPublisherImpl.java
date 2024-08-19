@@ -7,22 +7,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
+
+import static com.ccs.rabbitmqtests.domain.core.constants.AppConstants.RabbitMQConstants;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class RabbitMQPublisherImpl implements RabbitMQPublisher {
 
-    @Value("${app.rabbitmq.exchange.test}")
-    private String exchange;
-
-    @Value("${app.rabbitmq.routing.key.test}")
-    private String routingKey;
 
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
@@ -33,13 +29,8 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
     }
 
     @Override
-    public void sendMessage(Object message) {
-        sendMessage(exchange, routingKey, message);
-    }
-
-    @Override
     public void sendMessage(String routingKey, Object message) {
-        sendMessage(exchange, routingKey, message);
+        sendMessage(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
     }
 
     @Override

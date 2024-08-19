@@ -32,8 +32,8 @@ public class Merchant {
     private String name;
 
     @NotNull
-    @Size(max = 4)
-    private String mcc;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Mcc mcc;
 
     @OneToMany(mappedBy = "merchant", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Transaction> transactions;

@@ -14,7 +14,7 @@ values (1000.00, 500.00, 250.00),
        (2000.00, 1000.00, 500.00),
        (3000.00, 1500.00, 750.00);
 
-insert into mcc (id, mcc, balance_type)
+insert into mcc (id, code, balance_type)
 values (1, '5811', 'MEAL'),
        (2, '5812', 'MEAL'),
        (3, '5411', 'FOOD'),

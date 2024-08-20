@@ -4,8 +4,8 @@ ALTER SEQUENCE account_id_seq RESTART WITH 1;
 ALTER SEQUENCE transaction_id_seq RESTART WITH 1;
 ALTER SEQUENCE merchant_id_seq RESTART WITH 1;
 
-delete from account;
 delete from transaction;
+delete from account;
 delete from merchant;
 delete from mcc;
 

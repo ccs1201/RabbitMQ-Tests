@@ -18,7 +18,7 @@ services:
         resources:
           limits:
             cpus: '1'
-            memory: '512MB'
+            memory: '1GB'
 
   rabbitMQ:
     image: rabbitmq:3.13.6-management-alpine

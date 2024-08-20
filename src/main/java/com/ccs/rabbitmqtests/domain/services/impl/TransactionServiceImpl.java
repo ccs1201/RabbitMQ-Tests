@@ -5,11 +5,11 @@ import com.ccs.rabbitmqtests.api.v1.inputs.TransactionInput;
 import com.ccs.rabbitmqtests.domain.core.payloads.TransactionPayload;
 import com.ccs.rabbitmqtests.domain.models.entities.Merchant;
 import com.ccs.rabbitmqtests.domain.models.enums.TransactionBalanceTypeEnum;
+import com.ccs.rabbitmqtests.domain.models.enums.TransactionCodesEnum;
 import com.ccs.rabbitmqtests.domain.services.AccountService;
 import com.ccs.rabbitmqtests.domain.services.MerchantService;
 import com.ccs.rabbitmqtests.domain.services.TransactionService;
 import com.ccs.rabbitmqtests.infra.rabbitmq.publishers.RabbitMQPublisher;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final MerchantService merchantService;
     private final RabbitMQPublisher rabbitMQPublisher;
 
-    @Transactional
     @Override
     public String processarTransacao(TransactionInput input) {
         accountService.existsById(input.account());
@@ -32,24 +31,24 @@ public class TransactionServiceImpl implements TransactionService {
         var payload = TransactionPayload.toTransactionPayload(input, merchant);
 
         if (TransactionBalanceTypeEnum.FOOD.equals(merchant.getMcc().getBalanceType())) {
-            //publicar payload na fila food
-            rabbitMQPublisher.sendMessage(RabbitMQConstants.ROUTING_KEY_FOOD, payload);
-            return null;
+            return rabbitMQPublisher
+                    .sendAndReceiveResponse(RabbitMQConstants.ROUTING_KEY_FOOD, payload, TransactionCodesEnum.class)
+                    .getValue();
         }
 
         if (TransactionBalanceTypeEnum.MEAL.equals(merchant.getMcc().getBalanceType())) {
-            //publicar payload na fila meal
-            rabbitMQPublisher.sendMessage(RabbitMQConstants.ROUTING_KEY_MEAL, payload);
-            return null;
+            return rabbitMQPublisher
+                    .sendAndReceiveResponse(RabbitMQConstants.ROUTING_KEY_MEAL, payload, TransactionCodesEnum.class)
+                    .getValue();
         }
-
-        //se não publica payload na fila cash
-        rabbitMQPublisher.sendMessage(RabbitMQConstants.ROUTING_KEY_CASH, payload);
-        return null;
+        
+        return rabbitMQPublisher
+                .sendAndReceiveResponse(RabbitMQConstants.ROUTING_KEY_CASH, payload, TransactionCodesEnum.class)
+                .getValue();
     }
 
     private Merchant getOrCreateMerchant(TransactionInput transaction) {
-        return merchantService.findByName(transaction.merchant())
+        return merchantService.findByNameFetchMcc(transaction.merchant())
                 .orElseGet(() -> merchantService
                         .createMerchant(transaction.merchant(), transaction.mcc()));
     }

@@ -1,10 +1,7 @@
 package com.ccs.rabbitmqtests.infra.rabbitmq.consumers;
 
-import org.springframework.messaging.handler.annotation.Headers;
-import org.springframework.messaging.handler.annotation.Payload;
-
-import java.util.Map;
+import org.springframework.amqp.core.Message;
 
 public interface RabbitMQConsumer {
-    void consumeMessage(@Payload String message, @Headers Map<String, Object> headers);
+    void consumeMessage(Message message);
 }

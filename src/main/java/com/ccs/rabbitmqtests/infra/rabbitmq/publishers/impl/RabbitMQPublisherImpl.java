@@ -1,5 +1,6 @@
 package com.ccs.rabbitmqtests.infra.rabbitmq.publishers.impl;
 
+import com.ccs.rabbitmqtests.domain.core.exceptions.AppRuntimeException;
 import com.ccs.rabbitmqtests.infra.rabbitmq.publishers.RabbitMQPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,16 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
 
     public <T> T sendAndReceiveResponse(String routingKey, Object message, Class<T> responseClass) {
         log(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
-        return (T) rabbitTemplate.convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
+        try {
+            return responseClass.cast(rabbitTemplate.convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME, routingKey, message, messageToSend -> {
+                messageToSend.getMessageProperties().setHeader("timestamp", OffsetDateTime.now());
+                messageToSend.getMessageProperties().setMessageId(UUID.randomUUID().toString());
+                return messageToSend;
+            }));
+
+        } catch (Exception e) {
+            throw new AppRuntimeException("Error send and receive message to RabbitMQ", e);
+        }
     }
 
     private static void log(String exchange, String routingKey, Object message) {

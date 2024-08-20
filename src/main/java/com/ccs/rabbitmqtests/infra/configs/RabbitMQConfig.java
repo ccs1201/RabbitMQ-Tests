@@ -35,7 +35,10 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue queue() {
-        return new Queue(RabbitMQConstants.QUEUE_TEST, true);
+        return QueueBuilder.durable(RabbitMQConstants.QUEUE_TEST)
+                .autoDelete()
+                .build();
+
     }
 
     @Bean
@@ -48,7 +51,9 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue foodQueue() {
-        return new Queue(RabbitMQConstants.QUEUE_FOOD, true);
+        return QueueBuilder.durable(RabbitMQConstants.QUEUE_FOOD)
+                .autoDelete()
+                .build();
     }
 
     @Bean
@@ -61,7 +66,9 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue mealQueue() {
-        return new Queue(RabbitMQConstants.QUEUE_MEAL, true);
+        return QueueBuilder.durable(RabbitMQConstants.QUEUE_MEAL)
+                .autoDelete()
+                .build();
     }
 
     @Bean
@@ -74,7 +81,9 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue cashQueue() {
-        return new Queue(RabbitMQConstants.QUEUE_CASH, true);
+        return QueueBuilder.durable(RabbitMQConstants.QUEUE_CASH)
+                .autoDelete()
+                .build();
     }
 
     @Bean

@@ -5,6 +5,7 @@ import com.ccs.rabbitmqtests.domain.models.entities.Merchant;
 import com.ccs.rabbitmqtests.domain.repositories.MerchantRepository;
 import com.ccs.rabbitmqtests.domain.services.MccService;
 import com.ccs.rabbitmqtests.domain.services.MerchantService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,13 @@ public class MerchantServiceImpl implements MerchantService {
     private final MccService mccService;
 
     @Override
-    public Optional<Merchant> findByName(String name) {
+    public Optional<Merchant> findByNameFetchMcc(String name) {
         return merchantRepository
                 .findByName(name);
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Merchant createMerchant(String name, String mcc) {
         return merchantRepository.save(Merchant.builder()
                 .name(name)

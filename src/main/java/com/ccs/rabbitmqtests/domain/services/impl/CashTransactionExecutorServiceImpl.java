@@ -25,7 +25,7 @@ public class CashTransactionExecutorServiceImpl implements TransactionExecutorSe
 
     @Override
     @Transactional
-    public String processarTransacao(TransactionPayload transactionPayload) {
+    public TransactionCodesEnum processarTransacao(TransactionPayload transactionPayload) {
 
         var transaction = buildTransaction(transactionPayload,
                 accountService.findByIdLocking(transactionPayload.accountId()),
@@ -38,7 +38,7 @@ public class CashTransactionExecutorServiceImpl implements TransactionExecutorSe
             transactionRepository.save(transaction);
         }
 
-        return transactionCode.getValue();
+        return transactionCode;
     }
 
 }

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Optional;
 
 public interface MerchantService {
-    Optional<Merchant> findByName(String name);
+    Optional<Merchant> findByNameFetchMcc(String name);
 
     Merchant createMerchant(String name, String mcc);
 

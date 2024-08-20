@@ -32,7 +32,7 @@ public class Merchant {
     private String name;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Mcc mcc;
 
     @OneToMany(mappedBy = "merchant", orphanRemoval = true, fetch = FetchType.LAZY)

@@ -5,10 +5,11 @@ import com.ccs.rabbitmqtests.domain.models.entities.Account;
 import com.ccs.rabbitmqtests.domain.models.entities.Merchant;
 import com.ccs.rabbitmqtests.domain.models.entities.Transaction;
 import com.ccs.rabbitmqtests.domain.models.enums.TransactionBalanceTypeEnum;
+import com.ccs.rabbitmqtests.domain.models.enums.TransactionCodesEnum;
 
 public interface TransactionExecutorService {
 
-    String processarTransacao(TransactionPayload transactionPayload);
+    TransactionCodesEnum processarTransacao(TransactionPayload transactionPayload);
 
     default Transaction buildTransaction(TransactionPayload transactionPayload, Account account, Merchant merchant, TransactionBalanceTypeEnum balanceTypeEnum) {
         return Transaction.builder()
@@ -16,6 +17,7 @@ public interface TransactionExecutorService {
                 .amount(transactionPayload.totalAmount())
                 .merchant(merchant)
                 .transactionBalanceType(balanceTypeEnum)
+                .mcc(merchant.getMcc().getCode())
                 .build();
     }
 }

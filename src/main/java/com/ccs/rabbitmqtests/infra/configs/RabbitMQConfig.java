@@ -34,22 +34,6 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue queue() {
-        return QueueBuilder.durable(RabbitMQConstants.QUEUE_TEST)
-                .autoDelete()
-                .build();
-
-    }
-
-    @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder
-                .bind(queue)
-                .to(exchange)
-                .with(RabbitMQConstants.ROUTING_KEY_TEST);
-    }
-
-    @Bean
     public Queue foodQueue() {
         return QueueBuilder.durable(RabbitMQConstants.QUEUE_FOOD)
                 .autoDelete()

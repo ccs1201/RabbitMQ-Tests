@@ -1,12 +1,9 @@
 package com.ccs.rabbitmqtests.infra.rabbitmq.publishers.impl;
 
 import com.ccs.rabbitmqtests.infra.rabbitmq.publishers.RabbitMQPublisher;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -21,12 +18,6 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
 
 
     private final RabbitTemplate rabbitTemplate;
-    private final ObjectMapper objectMapper;
-
-    @PostConstruct
-    private void inti() {
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter(objectMapper));
-    }
 
     @Override
     public void sendMessage(String routingKey, Object message) {
@@ -35,13 +26,7 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
 
     @Override
     public void sendMessage(String exchange, String routingKey, Object message) {
-        log.info("""
-                
-                Sending message to RabbitMQ
-                Exchange: {}
-                RoutigKey: {}
-                message: {}
-                """, exchange, routingKey, message);
+        log(exchange, routingKey, message);
 
         rabbitTemplate.convertAndSend(exchange, routingKey, message, messageToSend -> {
                     messageToSend.getMessageProperties().setHeader("timestamp", OffsetDateTime.now());
@@ -49,5 +34,20 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
                     return messageToSend;
                 }
         );
+    }
+
+    public <T> T sendAndReceiveResponse(String routingKey, Object message, Class<T> responseClass) {
+        log(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
+        return (T) rabbitTemplate.convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
+    }
+
+    private static void log(String exchange, String routingKey, Object message) {
+        log.info("""
+                
+                Sending message to RabbitMQ
+                Exchange: {}
+                RoutigKey: {}
+                message: {}
+                """, exchange, routingKey, message);
     }
 }

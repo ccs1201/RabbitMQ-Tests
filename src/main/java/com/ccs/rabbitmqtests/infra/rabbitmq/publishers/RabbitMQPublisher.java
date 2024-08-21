@@ -5,5 +5,5 @@ public interface RabbitMQPublisher {
 
     void sendMessage(String routingKey, Object message);
 
-    <T> T sendAndReceiveResponse (String routingKey, Object message, Class<T> responseClass);
+    <T> T call(String routingKey, Object message, Class<T> responseClass);
 }

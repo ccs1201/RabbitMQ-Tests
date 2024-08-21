@@ -32,18 +32,18 @@ public class TransactionServiceImpl implements TransactionService {
 
         if (TransactionBalanceTypeEnum.FOOD.equals(merchant.getMcc().getBalanceType())) {
             return rabbitMQPublisher
-                    .sendAndReceiveResponse(RabbitMQConstants.ROUTING_KEY_FOOD, payload, TransactionCodesEnum.class)
+                    .call(RabbitMQConstants.ROUTING_KEY_FOOD, payload, TransactionCodesEnum.class)
                     .getValue();
         }
 
         if (TransactionBalanceTypeEnum.MEAL.equals(merchant.getMcc().getBalanceType())) {
             return rabbitMQPublisher
-                    .sendAndReceiveResponse(RabbitMQConstants.ROUTING_KEY_MEAL, payload, TransactionCodesEnum.class)
+                    .call(RabbitMQConstants.ROUTING_KEY_MEAL, payload, TransactionCodesEnum.class)
                     .getValue();
         }
         
         return rabbitMQPublisher
-                .sendAndReceiveResponse(RabbitMQConstants.ROUTING_KEY_CASH, payload, TransactionCodesEnum.class)
+                .call(RabbitMQConstants.ROUTING_KEY_CASH, payload, TransactionCodesEnum.class)
                 .getValue();
     }
 

@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.ccs.rabbitmqtests.domain.core.constants.AppConstants.RabbitMQConstants;
@@ -37,15 +38,38 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
         );
     }
 
-    public <T> T sendAndReceiveResponse(String routingKey, Object message, Class<T> responseClass) {
+    /**
+     * <p>
+     * Este método funciona como uma chamada RPC (remote procedure call) onde uma
+     * mensagem é publicada em uma fila do RabbitMQ e é esperada uma resposta.
+     * </p>
+     * <p>
+     * O método envia uma mensagem para a fila especificado pela chave de roteamento {@code routingKey}
+     * e aguarda a resposta de volta do consumidor. O tempo máximo de espera é de 30 segundos.
+     * Se nenhuma resposta for recebida dentro do tempo especificado, um erro é lançado.
+     * </p>
+     * <p>
+     * O método retorna o objeto de resposta do tipo especificado em {@code responseClass}.
+     * </p>
+     *
+     * @param routingKey A RoutingKey da fila.
+     * @param message A mensagem que será enviada/publicada.
+     * @param responseClass O tipo de resposta esperada.
+     * @return A response convertida para o tipo definido em responseClass.
+     * @throws AppRuntimeException Se ocorrer um erro ao enviar ou receber a mensagem do RabbitMQ.
+     */
+    public <T> T call(String routingKey, Object message, Class<T> responseClass) {
         log(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
         try {
-            return responseClass.cast(rabbitTemplate.convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME, routingKey, message, messageToSend -> {
-                messageToSend.getMessageProperties().setHeader("timestamp", OffsetDateTime.now());
-                messageToSend.getMessageProperties().setMessageId(UUID.randomUUID().toString());
-                return messageToSend;
-            }));
+            Optional<Object> response = Optional.ofNullable(
+                    rabbitTemplate.convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME, routingKey, message, messageToSend -> {
+                        messageToSend.getMessageProperties().setHeader("timestamp", OffsetDateTime.now());
+                        messageToSend.getMessageProperties().setMessageId(UUID.randomUUID().toString());
+                        return messageToSend;
+                    })
+            );
 
+            return responseClass.cast(response.orElseThrow(() -> new AppRuntimeException("No response was received for message")));
         } catch (Exception e) {
             throw new AppRuntimeException("Error send and receive message to RabbitMQ", e);
         }

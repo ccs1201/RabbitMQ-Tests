@@ -15,6 +15,7 @@ public class AppConstants {
         public static final String ROUTING_KEY_MEAL = "meal-routing-key";
         public static final String QUEUE_CASH = "cash-queue";
         public static final String ROUTING_KEY_CASH = "cash-routing-key";
+        public static final String PAYMENT_SERVICE_QUEUE = "payment-service-queue";
 
         private RabbitMQConstants() {
         }

@@ -1,16 +1,20 @@
 package com.ccs.rabbitmqtests.infra.rabbitmq.publishers.impl;
 
 import com.ccs.rabbitmqtests.domain.core.exceptions.AppRuntimeException;
+import com.ccs.rabbitmqtests.framework.exception.HandlerException;
 import com.ccs.rabbitmqtests.infra.rabbitmq.publishers.RabbitMQPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.RemoteInvocationResult;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static com.ccs.rabbitmqtests.domain.core.constants.AppConstants.RabbitMQConstants;
 
@@ -23,21 +27,23 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
     private final RabbitTemplate rabbitTemplate;
 
     @Override
-    public void sendMessage(String routingKey, Object message) {
-        sendMessage(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
+    public void sendAsync(String routingKey, Object message) {
+        sendAsync(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
     }
 
     @Override
-    public void sendMessage(String exchange, String routingKey, Object message) {
+    public void sendAsync(String exchange, String routingKey, Object message) {
         log(exchange, routingKey, message);
-        rabbitTemplate.convertAndSend(exchange, routingKey, message, setHeaders());
+        CompletableFuture
+                .runAsync(() -> rabbitTemplate
+                        .convertAndSend(exchange, routingKey, message, getMessagePostProcessor()));
     }
 
     /**
      * <p>
      * Este método funciona como uma chamada RPC (remote procedure call) onde uma
      * mensagem é publicada em uma fila do RabbitMQ e é esperada uma resposta de
-     * de forma síncrona.
+     * forma síncrona.
      * </p>
      * <p>
      * O método envia uma mensagem para a fila especificado pela chave de roteamento {@code routingKey}
@@ -52,26 +58,36 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
      * @param message       A mensagem que será enviada/publicada.
      * @param responseClass O tipo de resposta esperada.
      * @return A response convertida para o tipo definido em responseClass.
-     * @throws AppRuntimeException Se ocorrer um erro ao enviar ou receber a mensagem do RabbitMQ.
+     * @throws HandlerException    Se ocorrer um erro de processamento no destino.
+     * @throws AppRuntimeException Se ocorrer um erro ao enviar ou receber a mensagem do destino.
      */
     public <T> T call(String routingKey, Object message, Class<T> responseClass) {
         log(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
-        try {
-            Optional<Object> response = Optional.ofNullable(
-                    rabbitTemplate
-                            .convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME, routingKey, message, setHeaders())
-            );
 
-            return responseClass.cast(response.orElseThrow(() -> new AppRuntimeException("No response was received for message")));
-        } catch (Exception e) {
-            throw new AppRuntimeException("Error send and receive message to RabbitMQ", e);
+        Optional<RemoteInvocationResult> response = Optional.ofNullable(
+                (RemoteInvocationResult) rabbitTemplate
+                        .convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME,
+                                routingKey,
+                                message,
+                                getMessagePostProcessor()
+                        )
+        );
+
+        if (response.isPresent() && response.get().hasException()) {
+            throw new HandlerException(response.get().getException());
         }
+
+        return responseClass.cast(response.orElseThrow(() -> new AppRuntimeException("No response was received for message")));
     }
 
-    private static MessagePostProcessor setHeaders() {
+    private static MessagePostProcessor getMessagePostProcessor() {
         return messagePostProcessor -> {
-            messagePostProcessor.getMessageProperties().setHeader("timestamp", OffsetDateTime.now());
+            messagePostProcessor.getMessageProperties().setHeader("offSetDateTime", OffsetDateTime.now());
             messagePostProcessor.getMessageProperties().setMessageId(UUID.randomUUID().toString());
+            messagePostProcessor.getMessageProperties().setTimestamp(Date.from(OffsetDateTime.now().toInstant()));
+            messagePostProcessor.getMessageProperties().setReplyTo(RabbitMQConstants.EXCHANGE_NAME.concat(".reply-to"));
+            messagePostProcessor.getMessageProperties().setDelayLong(5L);
+
             return messagePostProcessor;
         };
     }

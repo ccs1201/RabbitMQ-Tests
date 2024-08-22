@@ -93,5 +93,20 @@ public class RabbitMQConfig {
                 .to(exchange)
                 .with(RabbitMQConstants.ROUTING_KEY_CASH);
     }
+
+    @Bean
+    public Queue paymentServiceQueue() {
+        return QueueBuilder.durable(RabbitMQConstants.PAYMENT_SERVICE_QUEUE)
+                .autoDelete()
+                .build();
+    }
+
+    @Bean
+    public Binding paymentServiceBinding(Queue paymentServiceQueue, TopicExchange exchange) {
+        return BindingBuilder
+                .bind(paymentServiceQueue)
+                .to(exchange)
+                .with(RabbitMQConstants.PAYMENT_SERVICE_QUEUE);
+    }
 }
 

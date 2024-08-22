@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
-public record TransactionInput(
+public record TransactionRequest(
         @NotNull Long account,
         @NotNull @Positive BigDecimal totalAmount,
         @NotBlank String mcc,

@@ -1,7 +1,7 @@
 package com.ccs.rabbitmqtests.domain.services.impl;
 
 
-import com.ccs.rabbitmqtests.api.v1.inputs.TransactionInput;
+import com.ccs.rabbitmqtests.api.v1.inputs.TransactionRequest;
 import com.ccs.rabbitmqtests.domain.core.payloads.TransactionPayload;
 import com.ccs.rabbitmqtests.domain.models.entities.Merchant;
 import com.ccs.rabbitmqtests.domain.models.enums.TransactionBalanceTypeEnum;
@@ -24,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final RabbitMQPublisher rabbitMQPublisher;
 
     @Override
-    public String processarTransacao(TransactionInput input) {
+    public String processarTransacao(TransactionRequest input) {
         accountService.existsById(input.account());
         var merchant = getOrCreateMerchant(input);
 
@@ -47,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .getValue();
     }
 
-    private Merchant getOrCreateMerchant(TransactionInput transaction) {
+    private Merchant getOrCreateMerchant(TransactionRequest transaction) {
         return merchantService.findByNameFetchMcc(transaction.merchant())
                 .orElseGet(() -> merchantService
                         .createMerchant(transaction.merchant(), transaction.mcc()));

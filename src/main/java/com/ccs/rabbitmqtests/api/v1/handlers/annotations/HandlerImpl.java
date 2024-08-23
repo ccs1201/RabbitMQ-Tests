@@ -1,5 +1,6 @@
 package com.ccs.rabbitmqtests.api.v1.handlers.annotations;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
@@ -9,5 +10,6 @@ import java.lang.annotation.*;
 @Documented
 @Component
 public @interface HandlerImpl {
+    @NotNull
     Class<?> value();
 }

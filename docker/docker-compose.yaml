@@ -1,3 +1,5 @@
+name: 'compose-testes'
+
 services:
     #Data Base
   postgres:
@@ -13,6 +15,7 @@ services:
         - "5432:5432"
       volumes:
         - ./postgresql.conf:/docker-entrypoint-initdb.d/postgresql.conf
+        - ./init.sql:/docker-entrypoint-initdb.d/01_init.sql
       command: 'postgres -c config_file=/docker-entrypoint-initdb.d/postgresql.conf'
       deploy:
         resources:

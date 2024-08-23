@@ -1,8 +1,8 @@
 set search_path to payment_service;
 
-ALTER SEQUENCE account_id_seq RESTART WITH 1;
-ALTER SEQUENCE transaction_id_seq RESTART WITH 1;
-ALTER SEQUENCE merchant_id_seq RESTART WITH 1;
+ALTER SEQUENCE IF EXISTS account_id_seq RESTART WITH 1;
+ALTER SEQUENCE IF EXISTS transaction_id_seq RESTART WITH 1;
+ALTER SEQUENCE IF EXISTS merchant_id_seq RESTART WITH 1;
 
 delete from transaction;
 delete from account;

@@ -1,3 +1,5 @@
+set search_path to payment_service;
+
 create table if not exists account
 (
     balance_cash numeric(12, 2) not null,

@@ -64,20 +64,25 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
     public <T> T call(String routingKey, Object message, Class<T> responseClass) {
         log(RabbitMQConstants.EXCHANGE_NAME, routingKey, message);
 
-        Optional<RemoteInvocationResult> response = Optional.ofNullable(
-                (RemoteInvocationResult) rabbitTemplate
-                        .convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME,
-                                routingKey,
-                                message,
-                                getMessagePostProcessor()
-                        )
-        );
+        try {
+            var response = Optional.ofNullable(
+                    rabbitTemplate
+                            .convertSendAndReceive(RabbitMQConstants.EXCHANGE_NAME,
+                                    routingKey,
+                                    message,
+                                    getMessagePostProcessor()
+                            )
+            );
 
-        if (response.isPresent() && response.get().hasException()) {
-            throw new HandlerException(response.get().getException());
+            if (response.isPresent() && response.get() instanceof RemoteInvocationResult result && result.hasException()) {
+                throw new HandlerException(result.getException());
+            }
+
+            return responseClass.cast(response.orElseThrow(() -> new AppRuntimeException("No response was received for message")));
+
+        } catch (Exception e) {
+            throw new AppRuntimeException(e.getMessage(), e);
         }
-
-        return responseClass.cast(response.orElseThrow(() -> new AppRuntimeException("No response was received for message")));
     }
 
     private static MessagePostProcessor getMessagePostProcessor() {

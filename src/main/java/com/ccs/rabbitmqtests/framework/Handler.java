@@ -1,5 +1,6 @@
 package com.ccs.rabbitmqtests.framework;
 
-public interface Handler {
-    <T> void handle(T input);
+public interface Handler<T> {
+
+    void handle(T input);
 }

@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @HandlerImpl(CashTransactionInput.class)
 @Slf4j
-public class CashTransactionHandlerImpl implements Handler {
+public class CashTransactionHandlerImpl implements Handler<CashTransactionInput> {
 
     @Override
-    public <T> void handle(T input) {
+    public void handle(CashTransactionInput input) {
         log.info("Received message: " + input);
     }
 }

@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @HandlerImpl(FoodTransactionInput.class)
 @Slf4j
-public class FoodTransactionHandlerImpl implements Handler {
+public class FoodTransactionHandlerImpl implements Handler<FoodTransactionInput> {
 
     @Override
-    public <T> void handle(T input) {
+    public void handle(FoodTransactionInput input) {
         log.info("Received message: " + input);
     }
 }

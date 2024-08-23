@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @HandlerImpl(MealTransactionInput.class)
 @Slf4j
-public class MealTransactionHandlerImpl implements Handler {
+public class MealTransactionHandlerImpl implements Handler<MealTransactionInput> {
 
     @Override
-    public <T> void handle(T input) {
+    public void handle(MealTransactionInput input) {
 //            Thread.sleep(5000);
         log.info("Received Message: {}", input);
         throw new AppRuntimeException("Lançando exception proposital para testes no handler");

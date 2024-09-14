@@ -9,4 +9,8 @@ public class HandlerException extends RuntimeException {
     public HandlerException(String message) {
         super(message);
     }
+
+    public HandlerException(String message, ClassCastException e) {
+        super(message, e);
+    }
 }

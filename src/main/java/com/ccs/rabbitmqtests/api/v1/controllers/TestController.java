@@ -18,7 +18,7 @@ import static com.ccs.rabbitmqtests.domain.core.constants.AppConstants.RabbitMQC
 @RequestMapping("/test")
 @RequiredArgsConstructor
 @Slf4j
-public class TestRabbitMQController {
+public class TestController {
 
     private final RabbitMQPublisherImpl rabbitMQPublisherImpl;
 
@@ -33,5 +33,7 @@ public class TestRabbitMQController {
 
         rabbitMQPublisherImpl.sendAsync(RabbitMQConstants.PAYMENT_SERVICE_QUEUE,
                 MealTransactionInput.toMealTransactionInput(transactionRequest));
+
+        rabbitMQPublisherImpl.sendAsync(RabbitMQConstants.PAYMENT_SERVICE_QUEUE, transactionRequest);
     }
 }

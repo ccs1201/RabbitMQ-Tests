@@ -1,7 +1,7 @@
 package com.ccs.rabbitmqtests.api.v1.controllers;
 
 
-import com.ccs.rabbitmqtests.api.v1.handlers.annotations.EndpointImpl;
+import com.ccs.rabbitmqtests.framework.annotations.EndpointImpl;
 import com.ccs.rabbitmqtests.api.v1.inputs.TransactionRequest;
 import com.ccs.rabbitmqtests.api.v1.outputs.TransactionResponse;
 import com.ccs.rabbitmqtests.domain.services.TransactionService;

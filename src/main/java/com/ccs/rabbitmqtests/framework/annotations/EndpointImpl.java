@@ -1,4 +1,4 @@
-package com.ccs.rabbitmqtests.api.v1.handlers.annotations;
+package com.ccs.rabbitmqtests.framework.annotations;
 
 import org.springframework.web.bind.annotation.RestController;
 

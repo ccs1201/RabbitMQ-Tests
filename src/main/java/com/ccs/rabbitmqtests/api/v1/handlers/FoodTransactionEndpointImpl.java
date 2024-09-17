@@ -1,4 +1,4 @@
-package com.ccs.rabbitmqtests.api.v1.handlers.impl;
+package com.ccs.rabbitmqtests.api.v1.handlers;
 
 import com.ccs.rabbitmqtests.framework.annotations.EndpointImpl;
 import com.ccs.rabbitmqtests.api.v1.inputs.FoodTransactionInput;
@@ -11,7 +11,7 @@ public class FoodTransactionEndpointImpl implements Endpoint<FoodTransactionInpu
 
     @Override
     public String handle(FoodTransactionInput input) {
-        log.info("Received message: " + input);
+        log.info("Received message: {}", input);
         return input.getClass().getSimpleName() + " OK - processado com sucesso";
     }
 }

@@ -18,7 +18,7 @@ public class FoodTransactionConsumer extends AbstractConsumer implements Transac
     private final FoodTransactionExecutorServiceImpl service;
 
     @RabbitListener(queues = AppConstants.RabbitMQConstants.QUEUE_FOOD)
-    public TransactionCodesEnum consumeCashTransaction(@Payload TransactionPayload payload) {
+    public TransactionCodesEnum process(@Payload TransactionPayload payload) {
         log(payload);
         return service.processarTransacao(payload);
     }

@@ -1,4 +1,4 @@
-package com.ccs.rabbitmqtests.api.v1.handlers.impl;
+package com.ccs.rabbitmqtests.api.v1.handlers;
 
 import com.ccs.rabbitmqtests.framework.annotations.EndpointImpl;
 import com.ccs.rabbitmqtests.api.v1.inputs.MealTransactionInput;

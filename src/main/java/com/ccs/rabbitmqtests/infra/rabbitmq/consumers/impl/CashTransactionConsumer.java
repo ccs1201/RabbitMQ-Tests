@@ -18,7 +18,7 @@ public class CashTransactionConsumer extends AbstractConsumer implements Transac
     private final CashTransactionExecutorServiceImpl service;
 
     @RabbitListener(queues = AppConstants.RabbitMQConstants.QUEUE_CASH)
-    public TransactionCodesEnum consumeCashTransaction(@Payload TransactionPayload payload) {
+    public TransactionCodesEnum process(@Payload TransactionPayload payload) {
         log(payload);
         return service.processarTransacao(payload);
     }

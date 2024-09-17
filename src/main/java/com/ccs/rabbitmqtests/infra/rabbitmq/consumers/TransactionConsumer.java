@@ -5,5 +5,5 @@ import com.ccs.rabbitmqtests.domain.models.enums.TransactionCodesEnum;
 
 public interface TransactionConsumer {
 
-    TransactionCodesEnum consumeCashTransaction(TransactionPayload payload);
+    TransactionCodesEnum process(TransactionPayload payload);
 }

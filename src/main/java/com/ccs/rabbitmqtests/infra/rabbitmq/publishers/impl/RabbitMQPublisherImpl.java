@@ -23,7 +23,6 @@ import static com.ccs.rabbitmqtests.domain.core.constants.AppConstants.RabbitMQC
 @RequiredArgsConstructor
 public class RabbitMQPublisherImpl implements RabbitMQPublisher {
 
-
     private final RabbitTemplate rabbitTemplate;
 
     @Override
@@ -47,7 +46,7 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
      * </p>
      * <p>
      * O método envia uma mensagem para a fila especificado pela chave de roteamento {@code routingKey}
-     * e aguarda a resposta de volta do consumidor. O tempo máximo de espera é de 30 segundos.
+     * e aguarda uma resposta do consumidor. O tempo máximo de espera é de 30 segundos.
      * Se nenhuma resposta for recebida dentro do tempo especificado, um erro é lançado.
      * </p>
      * <p>
@@ -102,8 +101,8 @@ public class RabbitMQPublisherImpl implements RabbitMQPublisher {
                 
                 Sending message to RabbitMQ
                 Exchange: {}
-                RoutigKey: {}
-                message: {}
+                RoutingKey: {}
+                Message: {}
                 """, exchange, routingKey, message);
     }
 }
